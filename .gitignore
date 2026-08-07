@@ -1,0 +1,8 @@
+build
+build_*/
+build-tsan/
+.build_debug/*
+.build_release/*
+.venv/
+release
+.agents/
