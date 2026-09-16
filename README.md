@@ -43,63 +43,31 @@ For cross-compilation, use a RISC-V 64-bit toolchain and a matching sysroot.
 
 ## Quickstart
 
-The quickest path is to download the SDK, build the repository quickstart
-example, and run it on a compatible target.
+### Quickstart on Bianbu K3
 
-### 1. Get the Repository
+The fastest way to run SpineRuntime is on a K3 board with the platform runtime
+package installed.
+
+Install SpineRuntime and build tools:
+
+```console
+sudo apt update
+sudo apt install -y git spacemit-runtime g++ cmake pkg-config
+```
+
+Clone this repository:
 
 ```console
 git clone https://github.com/spacemit-com/spine-runtime.git
 cd spine-runtime
 ```
 
-### 2. Download the SDK
-
-```console
-curl -LO https://github.com/spacemit-com/spine-runtime/releases/download/0.6.2/spine-runtime.riscv64.0.6.2.tar.gz
-```
-
-### 3. Verify the SDK
-
-```console
-sha256sum spine-runtime.riscv64.0.6.2.tar.gz
-```
-
-Expected SHA-256:
-
-```text
-fc062cc83a49c98011976fa9620739841c74a619379785172d0f8959df65be47
-```
-
-### 4. Extract the SDK
-
-```console
-tar -xf spine-runtime.riscv64.0.6.2.tar.gz
-export SPINE_RUNTIME_SDK="$PWD/spine-runtime.riscv64.0.6.2"
-```
-
-### 5. Quickstart on Bianbu K3
-
-Install SpineRuntime and build tools on a K3 board:
-
-```console
-$ sudo apt update
-$ sudo apt install -y git spacemit-runtime g++ cmake pkg-config
-```
-
-Clone this repository:
-
-```console
-$ git clone https://github.com/spacemit-com/spine-runtime.git
-$ cd spine-runtime
-```
-
 Build and run the quickstart example:
 
 ```console
-$ cmake -S examples/quickstart -B build/quickstart
-$ cmake --build build/quickstart --parallel
-$ ./build/quickstart/spine_quickstart
+cmake -S examples/quickstart -B build/quickstart
+cmake --build build/quickstart --parallel
+./build/quickstart/spine_quickstart
 ```
 
 Expected output:
@@ -111,8 +79,48 @@ SpineRuntime quickstart passed on N core(s)
 `N` is the number of compute cores granted to the Stream. It can vary depending
 on Backend selection and current compute-core availability.
 
-For cross-compilation and SDK-based builds, see
+For SDK-based builds and cross-compilation, see
 [`examples/quickstart`](examples/quickstart).
+
+### Use the Prebuilt SDK
+
+Download the SDK package matching your target platform from the
+[Releases](https://github.com/spacemit-com/spine-runtime/releases) page.
+
+For RISC-V 64-bit Linux release `0.6.2`:
+
+```console
+curl -LO https://github.com/spacemit-com/spine-runtime/releases/download/0.6.2/spine-runtime.riscv64.0.6.2.tar.gz
+```
+
+Verify the SDK archive:
+
+```console
+echo "fc062cc83a49c98011976fa9620739841c74a619379785172d0f8959df65be47  spine-runtime.riscv64.0.6.2.tar.gz" | sha256sum --check
+```
+
+Extract the SDK:
+
+```console
+tar -xf spine-runtime.riscv64.0.6.2.tar.gz
+export SPINE_RUNTIME_SDK="$PWD/spine-runtime.riscv64.0.6.2"
+```
+
+The SDK root should contain:
+
+```text
+include/
+lib/
+LICENSE
+manifest.json
+VERSION_NUMBER
+```
+
+Use this SDK path as `CMAKE_PREFIX_PATH` when building applications against the
+prebuilt runtime.
+
+For complete SDK-based native builds, cross-compilation, and deployment steps,
+see [`examples/quickstart/README.md`](examples/quickstart/README.md).
 
 ## SDK Contents
 
