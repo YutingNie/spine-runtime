@@ -78,32 +78,7 @@ tar -xf spine-runtime.riscv64.0.6.2.tar.gz
 export SPINE_RUNTIME_SDK="$PWD/spine-runtime.riscv64.0.6.2"
 ```
 
-### 5. Build the Quickstart Example
-
-```console
-cmake -S examples/quickstart \
-  -B build/quickstart \
-  -DCMAKE_PREFIX_PATH="$SPINE_RUNTIME_SDK"
-
-cmake --build build/quickstart --parallel
-```
-
-### 6. Run
-
-```console
-export LD_LIBRARY_PATH="$SPINE_RUNTIME_SDK/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-./build/quickstart/spine_quickstart
-```
-
-Expected output:
-
-```text
-SpineRuntime quickstart passed on N core(s)
-```
-
-`N` is the number of compute cores granted by the selected Backend.
-
-## Quickstart on Bianbu K3
+### 5. Quickstart on Bianbu K3
 
 Install SpineRuntime and build tools on a K3 board:
 
