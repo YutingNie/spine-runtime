@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>SpineRuntime</h1>
+    <h1>Spine-Runtime</h1>
     <p><strong>
         SpacemiT RISC-V AI Many-Core Execution Runtime
     </strong></p>
@@ -7,7 +7,7 @@
 
 English | [简体中文](README_ZH.md)
 
-SpineRuntime (library name: `spert`) targets SpacemiT RISC-V SoCs and
+Spine-Runtime (library name: `spert`) targets SpacemiT RISC-V SoCs and
 coordinates parallel tasks between general-purpose host cores and AI
 compute cores. The SDK is distributed as the prebuilt `libspert` shared
 library, public C++ headers, and a compiler-integration ABI. Applications
@@ -17,7 +17,7 @@ synchronization, and resource reclamation.
 
 ## Overview
 
-SpineRuntime provides a Tile-SPMD (Single Program, Multiple Data)
+Spine-Runtime provides a Tile-SPMD (Single Program, Multiple Data)
 programming model: each `launch` instantiates the same kernel as a set of
 tiles, with every tile processing one coordinate in the grid. Applications
 do not need to manage AI compute-core threads directly. The same
@@ -72,6 +72,7 @@ then build the standalone demo in
 
 ```console
 sudo apt install -y spacemit-runtime g++ pkg-config
+git clone https://github.com/spacemit-com/spine-runtime.git
 g++ -std=c++17 examples/quickstart/demo.cpp \
   $(pkg-config --cflags --libs spine-runtime) \
   -pthread -o spine_quickstart
