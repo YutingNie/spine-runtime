@@ -1,14 +1,28 @@
-# SpineRuntime
+<div align="center">
+    <h1>SpineRuntime</h1>
+    <p><strong>
+        SpacemiT RISC-V AI Many-Core Execution Runtime
+    </strong></p>
+</div>
 
 English | [简体中文](README_ZH.md)
 
-**SpacemiT RISC-V AI Many-Core Execution Runtime**
+SpineRuntime (library name: `spert`) targets SpacemiT RISC-V SoCs and
+coordinates parallel tasks between general-purpose host cores and AI
+compute cores. The SDK is distributed as the prebuilt `libspert` shared
+library, public C++ headers, and a compiler-integration ABI. Applications
+describe only the compute grid and tile kernel; the runtime handles
+Backend selection, compute-core resource allocation, task scheduling,
+synchronization, and resource reclamation.
 
-SpineRuntime (library name: `spert`) targets SpacemiT RISC-V SoCs and coordinates parallel tasks between general-purpose host cores and AI compute cores. The SDK is distributed as the prebuilt `libspert` shared library, public C++ headers, and a compiler-integration ABI. Applications describe only the compute grid and tile kernel; the runtime handles Backend selection, compute-core resource allocation, task scheduling, synchronization, and resource reclamation.
+## Overview
 
-## Introduction
-
-SpineRuntime provides a Tile-SPMD (Single Program, Multiple Data) programming model: each `launch` instantiates the same kernel as a set of tiles, with every tile processing one coordinate in the grid. Applications do not need to manage AI compute-core threads directly. The same scheduling code runs across different SpacemiT platforms and generic/qemu environments through a unified interface.
+SpineRuntime provides a Tile-SPMD (Single Program, Multiple Data)
+programming model: each `launch` instantiates the same kernel as a set of
+tiles, with every tile processing one coordinate in the grid. Applications
+do not need to manage AI compute-core threads directly. The same
+scheduling code runs across different SpacemiT platforms and generic/qemu
+environments through a unified interface.
 
 Key features include:
 
@@ -39,24 +53,61 @@ Host application / compiler-generated code
      Granted CC Cores          Granted CC Cores
 ```
 
-## Quickstart
+## Getting started
 
-The quickstart demo is a standalone CMake project under
-[`examples/quickstart`](examples/quickstart); its README covers native
-builds on K3 and cross-compilation with a prebuilt SDK.
+### Prerequisites
 
-## Programming Model
+- A SpacemiT K3 board running Bianbu for native builds, or a development
+  host with a RISC-V 64-bit cross toolchain for cross-compilation.
+- The SpineRuntime SDK: the `spacemit-runtime` package on the board, or a
+  prebuilt `spine-runtime.xxx.tar.gz` archive from the
+  [Releases](https://github.com/spacemit-com/spine-runtime/releases) page.
+- A C++17 compiler, plus CMake or `pkg-config` for integration.
 
-This section moved to [docs/programming-model.md](docs/programming-model.md).
+### Quickstart
 
-## Multicore Scheduling Model
+On a K3 board running Bianbu, install SpineRuntime and the build tools,
+then build the standalone demo in
+[`examples/quickstart`](examples/quickstart) from the repository root:
 
-This section moved to [docs/scheduling.md](docs/scheduling.md).
+```console
+sudo apt install -y spacemit-runtime g++ pkg-config
+g++ -std=c++17 examples/quickstart/demo.cpp \
+  $(pkg-config --cflags --libs spine-runtime) \
+  -pthread -o spine_quickstart
+./spine_quickstart
+```
 
-## API and Feature Overview
+Expected output:
 
-This section moved to [docs/api-reference.md](docs/api-reference.md).
+```text
+SpineRuntime quickstart passed on 8 core(s)
+```
 
-## Supported Backend Modes
+The reported core count is the number actually granted to the Stream and
+can vary when other Streams or processes are using K3 compute cores. For
+cross-compilation with a prebuilt SDK, see
+[`examples/quickstart/README.md`](examples/quickstart/README.md).
 
-This section moved to [docs/backends.md](docs/backends.md).
+## Documentation
+
+| Document | Description |
+|---|---|
+| [Programming Model](docs/programming-model.md) | Core objects, tile kernels, and task synchronization |
+| [Multicore Scheduling Model](docs/scheduling.md) | Streams, compute-core grants, tile scheduling, and shared buffers |
+| [API and Feature Overview](docs/api-reference.md) | Public C++ API, status codes, compiler-integration ABI, and package integration |
+| [Supported Backend Modes](docs/backends.md) | Backend selection, topology, and the `generic/qemu` simulation target |
+
+## Backend selection
+
+SpineRuntime selects an available Backend automatically. When no physical
+SpacemiT platform is detected, `generic/qemu` is used; set `SPERT_BACKEND`
+before starting the process to select `spacemit-k1`, `spacemit-k3`, or
+`spacemit-k3-x100` as the simulation target. Physical-platform detection
+takes precedence over this environment variable. See
+[Supported Backend Modes](docs/backends.md) for explicit selection by name
+and the full Backend table.
+
+## License
+
+See [LICENSE](LICENSE).
