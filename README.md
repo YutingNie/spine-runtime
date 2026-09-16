@@ -62,7 +62,9 @@ git clone https://github.com/spacemit-com/spine-runtime.git
 cd spine-runtime
 ```
 
-Build and run the quickstart example:
+Build and run the quickstart example in
+[`examples/quickstart`](examples/quickstart). The example source is
+[`demo.cpp`](examples/quickstart/demo.cpp).
 
 ```console
 cmake -S examples/quickstart -B build/quickstart
