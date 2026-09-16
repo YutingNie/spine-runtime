@@ -57,12 +57,17 @@ Host application / compiler-generated code
 
 ### Prerequisites
 
-- A SpacemiT K3 board running Bianbu for native builds, or a development
-  host with a RISC-V 64-bit cross toolchain for cross-compilation.
-- The SpineRuntime SDK: the `spacemit-runtime` package on the board, or a
-  prebuilt `spine-runtime.xxx.tar.gz` archive from the
-  [Releases](https://github.com/spacemit-com/spine-runtime/releases) page.
-- A C++17 compiler, plus CMake or `pkg-config` for integration.
+- A SpacemiT K3 board running Bianbu, or a RISC-V 64-bit cross-compilation
+  environment.
+- A C++17 compiler with CMake or `pkg-config`.
+- SpineRuntime from the `spacemit-runtime` platform package or a prebuilt SDK
+  from [Releases](https://github.com/spacemit-com/spine-runtime/releases).
+
+`spacemit-runtime` package availability depends on the Bianbu source: K3 has it
+in daily and versioned sources, while K1 may only have it in the daily source
+until the next Bianbu release. If APT cannot locate it, use the prebuilt SDK.
+
+GitHub `Source code` archives are documentation snapshots, not SDK packages.
 
 ### Quickstart
 
@@ -73,6 +78,7 @@ then build the standalone demo in
 ```console
 sudo apt install -y spacemit-runtime g++ pkg-config
 git clone https://github.com/spacemit-com/spine-runtime.git
+cd spine-runtime
 g++ -std=c++17 examples/quickstart/demo.cpp \
   $(pkg-config --cflags --libs spine-runtime) \
   -pthread -o spine_quickstart

@@ -56,6 +56,8 @@ SpineRuntime 提供 Tile-SPMD（Single Program, Multiple Data）编程模型：�
 
 ```console
 sudo apt install -y spacemit-runtime g++ pkg-config
+git clone https://github.com/spacemit-com/spine-runtime.git
+cd spine-runtime
 g++ -std=c++17 examples/quickstart/demo.cpp \
   $(pkg-config --cflags --libs spine-runtime) \
   -pthread -o spine_quickstart
